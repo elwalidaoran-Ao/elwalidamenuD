@@ -40,11 +40,17 @@ export function ProductPlaceholder({
 
   // If a real image exists and has not errored, render it directly
   if (hasRealImage) {
+    const defaultClasses =
+      variant === 'side'
+        ? 'w-full h-full object-cover rounded-full'
+        : 'w-full h-full object-cover';
     return (
       <img
         src={image}
         alt={altText}
-        className={className}
+        referrerPolicy="no-referrer"
+        loading="lazy"
+        className={className || defaultClasses}
         onError={() => setImageError(true)}
       />
     );

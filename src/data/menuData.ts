@@ -1510,7 +1510,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Les Trompes l'œil", ar: "حلويات الخداع البصري" },
     price: 650,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Les%20Trompes%20l%27%C5%93il.png",
     badge: { fr: "Exclusif", ar: "حصري" },
   },
 

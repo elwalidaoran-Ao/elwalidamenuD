@@ -279,6 +279,7 @@ export function TableBillboardModal({
                   <img
                     src={product.image}
                     alt={name}
+                    referrerPolicy="no-referrer"
                     className="max-w-full max-h-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
                     onError={() => setImageError(true)}
                   />
