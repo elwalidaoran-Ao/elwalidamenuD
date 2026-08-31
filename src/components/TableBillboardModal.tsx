@@ -15,6 +15,7 @@ import {
   Citrus,
   Eye,
   Info,
+  Camera,
 } from 'lucide-react';
 import { MenuItem, ShowcaseProduct, Language } from '../types';
 
@@ -26,6 +27,7 @@ interface TableBillboardModalProps {
   onClose: () => void;
   onSelectProduct: (product: MenuItem | ShowcaseProduct) => void;
   onOrderOrSelectToast: (name: string) => void;
+  onOpenArCamera?: (product: MenuItem | ShowcaseProduct) => void;
 }
 
 export function TableBillboardModal({
@@ -36,6 +38,7 @@ export function TableBillboardModal({
   onClose,
   onSelectProduct,
   onOrderOrSelectToast,
+  onOpenArCamera,
 }: TableBillboardModalProps) {
   const [tilt, setTilt] = useState<{ x: number; y: number }>({ x: 6, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -417,6 +420,21 @@ export function TableBillboardModal({
 
           {/* Action Row */}
           <div className="flex items-center gap-2 pt-1">
+            {product?.image && onOpenArCamera && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenArCamera(product);
+                }}
+                className="py-2.5 px-3 rounded-xl bg-[#C9A84C]/20 hover:bg-[#C9A84C]/30 text-[#C9A84C] font-bold text-xs shadow-md border border-[#C9A84C]/50 hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-1.5"
+                title={isRTL ? 'معاينة عبر كاميرا AR' : 'Aperçu en Caméra AR'}
+              >
+                <Camera className="w-3.5 h-3.5" />
+                <span>{isRTL ? 'كاميرا AR' : 'Caméra AR'}</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => {

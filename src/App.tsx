@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo, UIEvent, TouchEvent } from 'react';
-import { Eye, Sparkles, Search, X, Layers } from 'lucide-react';
+import { Eye, Sparkles, Search, X, Layers, Camera } from 'lucide-react';
 import {
   restaurantInfo,
   uiTranslations,
@@ -11,6 +11,7 @@ import { Language, MenuItem, ShowcaseProduct } from './types';
 import { ProductPlaceholder } from './components/ProductPlaceholder';
 import { TableBillboardModal } from './components/TableBillboardModal';
 import { ArLogoCameraModal } from './components/ArLogoCameraModal';
+import { ArCameraModal } from './components/ArCameraModal';
 
 export default function App() {
   const [lang, setLang] = useState<Language>('fr');
@@ -32,6 +33,12 @@ export default function App() {
 
   // AR Logo Camera Modal State
   const [isLogoModalOpen, setIsLogoModalOpen] = useState<boolean>(false);
+
+  // AR Product Camera Modal State (e.g. Les Trompes l'œil)
+  const [isArProductModalOpen, setIsArProductModalOpen] = useState<boolean>(false);
+  const [selectedArProduct, setSelectedArProduct] = useState<
+    MenuItem | ShowcaseProduct | null
+  >(null);
 
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const categoriesScrollRef = useRef<HTMLDivElement | null>(null);
@@ -124,6 +131,15 @@ export default function App() {
     (prod: MenuItem | ShowcaseProduct) => {
       setSelectedBillboardProduct(prod);
       setIsTableModalOpen(true);
+    },
+    []
+  );
+
+  // Open AR Product Camera modal (e.g. Les Trompes l'œil)
+  const handleOpenArProductCamera = useCallback(
+    (prod: MenuItem | ShowcaseProduct) => {
+      setSelectedArProduct(prod);
+      setIsArProductModalOpen(true);
     },
     []
   );
@@ -442,8 +458,8 @@ export default function App() {
                 />
               </div>
 
-              {/* Dedicated "View on Table" Action Button */}
-              <div>
+              {/* Dedicated "View on Table" & AR Camera Action Buttons */}
+              <div className="flex items-center justify-center gap-2 flex-wrap">
                 <button
                   type="button"
                   id="heroTableBtn"
@@ -453,6 +469,17 @@ export default function App() {
                   <Eye className="w-3.5 h-3.5 text-[#C9A84C]" />
                   <span>{uiTranslations.viewOnTable[lang]}</span>
                 </button>
+                {currentProduct.image && (
+                  <button
+                    type="button"
+                    id="heroArBtn"
+                    className="hero-table-btn"
+                    onClick={() => handleOpenArProductCamera(currentProduct)}
+                  >
+                    <Camera className="w-3.5 h-3.5 text-[#C9A84C]" />
+                    <span>{uiTranslations.arCamera[lang]}</span>
+                  </button>
+                )}
               </div>
 
               <h2
@@ -579,6 +606,20 @@ export default function App() {
                       {badgeText && (
                         <span className="popular-card-badge">{badgeText}</span>
                       )}
+                      {item.image && (
+                        <button
+                          type="button"
+                          className="card-ar-trigger"
+                          title={uiTranslations.viewInCamera[lang]}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenArProductCamera(item);
+                          }}
+                        >
+                          <Camera className="w-3 h-3 text-[#C9A84C]" />
+                          <span>AR</span>
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="card-table-trigger"
@@ -648,6 +689,7 @@ export default function App() {
         allProducts={allAvailableProducts}
         onClose={() => setIsTableModalOpen(false)}
         onSelectProduct={(p) => setSelectedBillboardProduct(p)}
+        onOpenArCamera={(p) => handleOpenArProductCamera(p)}
         onOrderOrSelectToast={(name) => {
           showToast(
             isRTL
@@ -656,6 +698,30 @@ export default function App() {
           );
         }}
       />
+
+      {/* Product AR Camera Modal (e.g. Les Trompes l'œil) */}
+      {selectedArProduct && (
+        <ArCameraModal
+          isOpen={isArProductModalOpen}
+          lang={lang}
+          imageUrl={selectedArProduct.image || ''}
+          title={selectedArProduct.name}
+          subtitle={{
+            fr: 'AR Produit • Aperçu Réel',
+            ar: 'واقع معزز • معاينة حية للمنتج',
+          }}
+          tagText={
+            'badge' in selectedArProduct && selectedArProduct.badge
+              ? selectedArProduct.badge
+              : undefined
+          }
+          price={`${selectedArProduct.price} ${selectedArProduct.currency[lang]}`}
+          altText={selectedArProduct.name[lang]}
+          overlaySize="large"
+          onClose={() => setIsArProductModalOpen(false)}
+          onToast={showToast}
+        />
+      )}
 
       {/* El Walida Official AR Camera Logo Viewer */}
       <ArLogoCameraModal

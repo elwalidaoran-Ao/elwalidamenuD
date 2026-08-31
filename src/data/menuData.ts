@@ -95,6 +95,14 @@ export const uiTranslations: UITranslations = {
     fr: "Tout",
     ar: "الكل",
   },
+  arCamera: {
+    fr: "Caméra AR",
+    ar: "كاميرا AR",
+  },
+  viewInCamera: {
+    fr: "Voir en Caméra AR",
+    ar: "مشاهدة عبر كاميرا AR",
+  },
 };
 
 // Catégories officielles du menu

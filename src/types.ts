@@ -64,4 +64,6 @@ export interface UITranslations {
   resetFilters: LocalizedText;
   itemsCount: LocalizedText;
   allCategories: LocalizedText;
+  arCamera: LocalizedText;
+  viewInCamera: LocalizedText;
 }
