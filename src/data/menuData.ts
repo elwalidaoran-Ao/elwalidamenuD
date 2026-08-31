@@ -75,6 +75,26 @@ export const uiTranslations: UITranslations = {
     fr: "Voir le Logo (Caméra AR)",
     ar: "مشاهدة الشعار (كاميرا AR)",
   },
+  searchPlaceholder: {
+    fr: "Rechercher une pâtisserie, boisson...",
+    ar: "ابحث عن حلوى، مشروب، قهوة...",
+  },
+  noResultsFound: {
+    fr: "Aucun résultat trouvé pour votre recherche",
+    ar: "لم يتم العثور على أي نتيجة لبحثك",
+  },
+  resetFilters: {
+    fr: "Réinitialiser les filtres",
+    ar: "إعادة ضبط الفلاتر",
+  },
+  itemsCount: {
+    fr: "produits",
+    ar: "منتج",
+  },
+  allCategories: {
+    fr: "Tout",
+    ar: "الكل",
+  },
 };
 
 // Catégories officielles du menu

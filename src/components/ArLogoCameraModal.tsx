@@ -37,6 +37,7 @@ export function ArLogoCameraModal({
   const isRTL = lang === 'ar';
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const isMountedRef = useRef<boolean>(false);
 
   // Camera states
   const [cameraActive, setCameraActive] = useState<boolean>(false);
@@ -121,14 +122,14 @@ export function ArLogoCameraModal({
             },
             audio: false,
           });
-        } catch (firstErr) {
+        } catch {
           // 2. Fallback: try without resolution constraints
           try {
             stream = await navigator.mediaDevices.getUserMedia({
               video: { facingMode: mode },
               audio: false,
             });
-          } catch (secondErr) {
+          } catch {
             // 3. Fallback: any available video
             stream = await navigator.mediaDevices.getUserMedia({
               video: true,
@@ -137,9 +138,19 @@ export function ArLogoCameraModal({
           }
         }
 
+        // Check if modal was closed while stream was acquiring
+        if (!isMountedRef.current || !isOpen) {
+          if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+          }
+          return;
+        }
+
         if (stream && videoRef.current) {
           streamRef.current = stream;
           videoRef.current.srcObject = stream;
+          videoRef.current.setAttribute('playsinline', 'true');
+          videoRef.current.setAttribute('webkit-playsinline', 'true');
           await videoRef.current.play().catch(() => {});
           setCameraActive(true);
 
@@ -165,10 +176,12 @@ export function ArLogoCameraModal({
               ? 'تم رفض إذن الكاميرا. يرجى السماح بالوصول للكاميرا في إعدادات المتصفح.'
               : 'Permission caméra refusée. Veuillez l’activer dans les paramètres.';
         }
-        setCameraError(msg);
+        if (isMountedRef.current) {
+          setCameraError(msg);
+        }
       }
     },
-    [facingMode, isRTL, stopCamera]
+    [facingMode, isRTL, stopCamera, isOpen]
   );
 
   // Toggle torch / flashlight
@@ -178,9 +191,10 @@ export function ArLogoCameraModal({
     if (!track) return;
     try {
       const nextState = !torchOn;
-      await (track as any).applyConstraints({
+      const constraints: MediaTrackConstraints & { advanced?: Array<{ torch?: boolean }> } = {
         advanced: [{ torch: nextState }],
-      });
+      };
+      await track.applyConstraints(constraints as MediaTrackConstraints);
       setTorchOn(nextState);
     } catch (e) {
       console.warn('Torch constraint not applied', e);
@@ -208,6 +222,7 @@ export function ArLogoCameraModal({
 
   // Lifecycle: open/close camera stream
   useEffect(() => {
+    isMountedRef.current = true;
     if (isOpen) {
       setTransform({ x: 0, y: 0, scale: 1, rotation: 0 });
       startCamera(facingMode);
@@ -215,9 +230,10 @@ export function ArLogoCameraModal({
       stopCamera();
     }
     return () => {
+      isMountedRef.current = false;
       stopCamera();
     };
-  }, [isOpen]);
+  }, [isOpen, startCamera, stopCamera, facingMode]);
 
   // ESC key to close
   useEffect(() => {

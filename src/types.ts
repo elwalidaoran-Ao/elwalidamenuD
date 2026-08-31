@@ -59,4 +59,9 @@ export interface UITranslations {
   tablePerspectiveHint: LocalizedText;
   close: LocalizedText;
   clickToSeeLogo: LocalizedText;
+  searchPlaceholder: LocalizedText;
+  noResultsFound: LocalizedText;
+  resetFilters: LocalizedText;
+  itemsCount: LocalizedText;
+  allCategories: LocalizedText;
 }

@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, useCallback, UIEvent, TouchEvent } from 'react';
-import { Eye, Sparkles } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback, useMemo, UIEvent, TouchEvent } from 'react';
+import { Eye, Sparkles, Search, X, Layers } from 'lucide-react';
 import {
   restaurantInfo,
   uiTranslations,
@@ -15,6 +15,7 @@ import { ArLogoCameraModal } from './components/ArLogoCameraModal';
 export default function App() {
   const [lang, setLang] = useState<Language>('fr');
   const [activeCategory, setActiveCategory] = useState<string>('patisserie');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentProductIndex, setCurrentProductIndex] = useState<number>(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [animStage, setAnimStage] = useState<'normal' | 'exiting'>('normal');
@@ -29,7 +30,7 @@ export default function App() {
     MenuItem | ShowcaseProduct | null
   >(null);
 
-  // El Walida Brand Logo Modal State
+  // AR Logo Camera Modal State
   const [isLogoModalOpen, setIsLogoModalOpen] = useState<boolean>(false);
 
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,17 +48,42 @@ export default function App() {
   const currentProduct = showcaseProducts[currentProductIndex] || showcaseProducts[0];
 
   const selectedCategoryObj = categories.find((c) => c.id === activeCategory);
-  const categoryProducts = allMenuItems.filter((item) => item.categoryId === activeCategory);
-  const displayedProducts =
-    categoryProducts.length > 0
-      ? categoryProducts
-      : allMenuItems.filter((item) => item.isPopular);
+
+  // Filtered menu items based on category and search query
+  const filteredProducts = useMemo(() => {
+    let list: MenuItem[] = [];
+    if (activeCategory === 'all') {
+      list = allMenuItems;
+    } else {
+      list = allMenuItems.filter((item) => item.categoryId === activeCategory);
+    }
+
+    if (!searchQuery.trim()) {
+      return list;
+    }
+
+    const query = searchQuery.trim().toLowerCase();
+    return list.filter((item) => {
+      const nameFr = item.name.fr.toLowerCase();
+      const nameAr = item.name.ar.toLowerCase();
+      const descFr = item.desc?.fr?.toLowerCase() || '';
+      const descAr = item.desc?.ar?.toLowerCase() || '';
+      return (
+        nameFr.includes(query) ||
+        nameAr.includes(query) ||
+        descFr.includes(query) ||
+        descAr.includes(query)
+      );
+    });
+  }, [activeCategory, searchQuery]);
 
   // Unified list of products for cycling in the Table Billboard modal
-  const allAvailableProducts = [
-    ...showcaseProducts,
-    ...allMenuItems.filter((item) => !showcaseProducts.some((sp) => sp.id === item.id)),
-  ];
+  const allAvailableProducts = useMemo(() => {
+    return [
+      ...showcaseProducts,
+      ...allMenuItems.filter((item) => !showcaseProducts.some((sp) => sp.id === item.id)),
+    ];
+  }, []);
 
   // Sync document language and direction
   useEffect(() => {
@@ -245,13 +271,28 @@ export default function App() {
         {/* Gold divider */}
         <div className="gold-line animate-in delay-2" id="goldLine"></div>
 
-        {/* Categories */}
+        {/* Categories Bar */}
         <div className="categories animate-in delay-3" id="categories">
           <div
             className="categories-scroll"
             id="categoriesScroll"
             ref={categoriesScrollRef}
           >
+            {/* All items category option */}
+            <button
+              type="button"
+              id="cat-all"
+              className={`category-item ${activeCategory === 'all' ? 'active' : ''}`}
+              onClick={() => handleSelectCategory('all', uiTranslations.allCategories[lang])}
+            >
+              <div className="category-ring">
+                <div className="category-img-wrap flex items-center justify-center bg-gradient-to-br from-[#FFFDF9] to-[#F2E8DC]">
+                  <Layers className="w-5 h-5 text-[#7B1F2A]" />
+                </div>
+              </div>
+              <span className="category-label">{uiTranslations.allCategories[lang]}</span>
+            </button>
+
             {categories.map((cat) => {
               const isActive = activeCategory === cat.id;
               const catLabel = cat.label[lang];
@@ -282,244 +323,308 @@ export default function App() {
           </div>
         </div>
 
-        {/* Product Showcase */}
-        <div
-          className="showcase animate-in delay-4"
-          id="showcase"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className="showcase-bg" id="showcaseBg"></div>
-
-          {/* Surrounding products for depth */}
-          <div
-            className="product-side left cursor-pointer"
-            id="sideLeft"
-            style={{ transform: parallaxStyle.sideLeft }}
-            onClick={() => handleOpenTableBillboard(currentProduct)}
-          >
-            <ProductPlaceholder
-              variant="side"
-              categoryId={currentProduct.id}
-              image={currentProduct.sideImages[0]}
-              lang={lang}
+        {/* Search Input Bar */}
+        <div className="px-5 mb-4 animate-in delay-3" id="searchContainer">
+          <div className="relative flex items-center">
+            <Search className="w-4 h-4 text-[#C9A84C] absolute left-3.5 rtl:left-auto rtl:right-3.5 pointer-events-none" />
+            <input
+              type="text"
+              id="menuSearchInput"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={uiTranslations.searchPlaceholder[lang]}
+              className="w-full bg-white/90 focus:bg-white text-xs text-[#2D2D2D] placeholder:text-[#8A8A8A] rounded-full py-2.5 pl-10 pr-9 rtl:pl-9 rtl:pr-10 border border-[#C9A84C]/30 focus:border-[#C9A84C] focus:outline-none shadow-xs transition-all"
             />
-          </div>
-          <div
-            className="product-side right cursor-pointer"
-            id="sideRight"
-            style={{ transform: parallaxStyle.sideRight }}
-            onClick={() => handleOpenTableBillboard(currentProduct)}
-          >
-            <ProductPlaceholder
-              variant="side"
-              categoryId={currentProduct.id}
-              image={currentProduct.sideImages[1]}
-              lang={lang}
-            />
-          </div>
-          <div
-            className="product-side bottom-left cursor-pointer"
-            id="sideBL"
-            style={{ transform: parallaxStyle.sideBL }}
-            onClick={() => handleOpenTableBillboard(currentProduct)}
-          >
-            <ProductPlaceholder
-              variant="side"
-              categoryId={currentProduct.id}
-              image={currentProduct.sideImages[2]}
-              lang={lang}
-            />
-          </div>
-          <div
-            className="product-side bottom-right cursor-pointer"
-            id="sideBR"
-            style={{ transform: parallaxStyle.sideBR }}
-            onClick={() => handleOpenTableBillboard(currentProduct)}
-          >
-            <ProductPlaceholder
-              variant="side"
-              categoryId={currentProduct.id}
-              image={currentProduct.sideImages[3]}
-              lang={lang}
-            />
-          </div>
-
-          <div className="showcase-inner" id="showcaseInner">
-            <div className="product-tag" id="productTag">
-              <span className="product-tag-dot"></span>
-              <span className="product-tag-text">{currentProduct.tag[lang]}</span>
-            </div>
-
-            {/* Hero Product Center Circle */}
-            <div
-              className="hero-product cursor-pointer group"
-              id="heroProduct"
-              onClick={() => handleOpenTableBillboard(currentProduct)}
-              style={{
-                transform:
-                  animStage === 'exiting'
-                    ? 'scale(0.85) translateY(20px)'
-                    : 'scale(1) translateY(0)',
-                opacity: animStage === 'exiting' ? 0.5 : 1,
-              }}
-            >
-              <div className="hero-product-glow"></div>
-              <ProductPlaceholder
-                variant="showcase"
-                categoryId={currentProduct.id}
-                image={currentProduct.image}
-                altText={currentProduct.name[lang]}
-                lang={lang}
-                showTableButton={false}
-              />
-            </div>
-
-            {/* Dedicated "View on Table" Action Button */}
-            <div>
+            {searchQuery && (
               <button
                 type="button"
-                id="heroTableBtn"
-                className="hero-table-btn"
-                onClick={() => handleOpenTableBillboard(currentProduct)}
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 rtl:right-auto rtl:left-3 w-5 h-5 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-[#5A5A5A]"
+                aria-label="Effacer la recherche"
               >
-                <Eye className="w-3.5 h-3.5 text-[#C9A84C]" />
-                <span>{uiTranslations.viewOnTable[lang]}</span>
+                <X className="w-3 h-3" />
               </button>
-            </div>
-
-            <h2
-              className="product-name"
-              id="heroName"
-              style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
-            >
-              {currentProduct.name[lang]}
-            </h2>
-            <p
-              className="product-desc"
-              id="heroDesc"
-              style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
-            >
-              {currentProduct.desc[lang]}
-            </p>
-
-            <div
-              className="product-price"
-              id="heroPrice"
-              style={{
-                marginBottom: '16px',
-                opacity: animStage === 'exiting' ? 0 : 1,
-              }}
-            >
-              {currentProduct.price}
-              <span>{currentProduct.currency[lang]}</span>
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="nav-dots" id="navDots">
-              {showcaseProducts.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  aria-label={`Aller au produit ${index + 1}`}
-                  id={`navDot-${index}`}
-                  className={`nav-dot ${index === currentProductIndex ? 'active' : ''}`}
-                  onClick={() => goToProduct(index)}
-                />
-              ))}
-            </div>
-
-            {/* Swipe hint */}
-            <div className="swipe-hint" id="swipeHint">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {isRTL ? (
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                ) : (
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                )}
-              </svg>
-              <span>{uiTranslations.swipeHint[lang]}</span>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* Popular / Selected Category Section */}
+        {/* Product Showcase (Hidden when actively searching) */}
+        {!searchQuery && (
+          <div
+            className="showcase animate-in delay-4"
+            id="showcase"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div className="showcase-bg" id="showcaseBg"></div>
+
+            {/* Surrounding products for depth */}
+            <div
+              className="product-side left cursor-pointer"
+              id="sideLeft"
+              style={{ transform: parallaxStyle.sideLeft }}
+              onClick={() => handleOpenTableBillboard(currentProduct)}
+            >
+              <ProductPlaceholder
+                variant="side"
+                categoryId={currentProduct.id}
+                image={currentProduct.sideImages[0]}
+                lang={lang}
+              />
+            </div>
+            <div
+              className="product-side right cursor-pointer"
+              id="sideRight"
+              style={{ transform: parallaxStyle.sideRight }}
+              onClick={() => handleOpenTableBillboard(currentProduct)}
+            >
+              <ProductPlaceholder
+                variant="side"
+                categoryId={currentProduct.id}
+                image={currentProduct.sideImages[1]}
+                lang={lang}
+              />
+            </div>
+            <div
+              className="product-side bottom-left cursor-pointer"
+              id="sideBL"
+              style={{ transform: parallaxStyle.sideBL }}
+              onClick={() => handleOpenTableBillboard(currentProduct)}
+            >
+              <ProductPlaceholder
+                variant="side"
+                categoryId={currentProduct.id}
+                image={currentProduct.sideImages[2]}
+                lang={lang}
+              />
+            </div>
+            <div
+              className="product-side bottom-right cursor-pointer"
+              id="sideBR"
+              style={{ transform: parallaxStyle.sideBR }}
+              onClick={() => handleOpenTableBillboard(currentProduct)}
+            >
+              <ProductPlaceholder
+                variant="side"
+                categoryId={currentProduct.id}
+                image={currentProduct.sideImages[3]}
+                lang={lang}
+              />
+            </div>
+
+            <div className="showcase-inner" id="showcaseInner">
+              <div className="product-tag" id="productTag">
+                <span className="product-tag-dot"></span>
+                <span className="product-tag-text">{currentProduct.tag[lang]}</span>
+              </div>
+
+              {/* Hero Product Center Circle */}
+              <div
+                className="hero-product cursor-pointer group"
+                id="heroProduct"
+                onClick={() => handleOpenTableBillboard(currentProduct)}
+                style={{
+                  transform:
+                    animStage === 'exiting'
+                      ? 'scale(0.85) translateY(20px)'
+                      : 'scale(1) translateY(0)',
+                  opacity: animStage === 'exiting' ? 0.5 : 1,
+                }}
+              >
+                <div className="hero-product-glow"></div>
+                <ProductPlaceholder
+                  variant="showcase"
+                  categoryId={currentProduct.id}
+                  image={currentProduct.image}
+                  altText={currentProduct.name[lang]}
+                  lang={lang}
+                  showTableButton={false}
+                />
+              </div>
+
+              {/* Dedicated "View on Table" Action Button */}
+              <div>
+                <button
+                  type="button"
+                  id="heroTableBtn"
+                  className="hero-table-btn"
+                  onClick={() => handleOpenTableBillboard(currentProduct)}
+                >
+                  <Eye className="w-3.5 h-3.5 text-[#C9A84C]" />
+                  <span>{uiTranslations.viewOnTable[lang]}</span>
+                </button>
+              </div>
+
+              <h2
+                className="product-name"
+                id="heroName"
+                style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
+              >
+                {currentProduct.name[lang]}
+              </h2>
+              <p
+                className="product-desc"
+                id="heroDesc"
+                style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
+              >
+                {currentProduct.desc[lang]}
+              </p>
+
+              <div
+                className="product-price"
+                id="heroPrice"
+                style={{
+                  marginBottom: '16px',
+                  opacity: animStage === 'exiting' ? 0 : 1,
+                }}
+              >
+                {currentProduct.price}
+                <span>{currentProduct.currency[lang]}</span>
+              </div>
+
+              {/* Navigation Dots */}
+              <div className="nav-dots" id="navDots">
+                {showcaseProducts.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    aria-label={`Aller au produit ${index + 1}`}
+                    id={`navDot-${index}`}
+                    className={`nav-dot ${index === currentProductIndex ? 'active' : ''}`}
+                    onClick={() => goToProduct(index)}
+                  />
+                ))}
+              </div>
+
+              {/* Swipe hint */}
+              <div className="swipe-hint" id="swipeHint">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {isRTL ? (
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  ) : (
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  )}
+                </svg>
+                <span>{uiTranslations.swipeHint[lang]}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Popular / Filtered Category Section */}
         <div className="popular-section animate-in delay-4" id="popularSection">
           <div className="section-header" id="popularHeader">
-            <h3 className="section-title" id="popularTitle">
-              {selectedCategoryObj ? selectedCategoryObj.label[lang] : uiTranslations.popularTitle[lang]}
-            </h3>
-            <a
-              href="#voir-tout"
-              className="section-link"
-              id="popularLink"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveCategory('all');
-                showToast(isRTL ? 'جميع الأصناف' : 'Tous les articles');
-              }}
-            >
-              {uiTranslations.seeAll[lang]}
-            </a>
+            <div>
+              <h3 className="section-title" id="popularTitle">
+                {searchQuery
+                  ? isRTL
+                    ? `نتائج البحث (${filteredProducts.length})`
+                    : `Résultats (${filteredProducts.length})`
+                  : activeCategory === 'all'
+                  ? uiTranslations.allCategories[lang]
+                  : selectedCategoryObj
+                  ? selectedCategoryObj.label[lang]
+                  : uiTranslations.popularTitle[lang]}
+              </h3>
+              <span className="text-[11px] text-[#8A8A8A] font-medium">
+                {filteredProducts.length} {uiTranslations.itemsCount[lang]}
+              </span>
+            </div>
+
+            {activeCategory !== 'all' && !searchQuery && (
+              <a
+                href="#voir-tout"
+                className="section-link"
+                id="popularLink"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveCategory('all');
+                  showToast(isRTL ? 'جميع الأصناف' : 'Tous les articles');
+                }}
+              >
+                {uiTranslations.seeAll[lang]}
+              </a>
+            )}
           </div>
-          <div className="popular-grid" id="popularGrid">
-            {displayedProducts.map((item) => {
-              const itemName = item.name[lang];
-              const badgeText = item.badge ? item.badge[lang] : undefined;
-              return (
-                <div
-                  key={item.id}
-                  id={`popular-${item.id}`}
-                  className="popular-card group"
-                  onClick={() => handleOpenTableBillboard(item)}
-                >
-                  <div className="popular-card-img">
-                    <ProductPlaceholder
-                      variant="card"
-                      categoryId={item.categoryId}
-                      image={item.image}
-                      altText={itemName}
-                      lang={lang}
-                      showTableButton={true}
-                      onViewOnTable={() => handleOpenTableBillboard(item)}
-                    />
-                    {badgeText && (
-                      <span className="popular-card-badge">{badgeText}</span>
-                    )}
-                    <button
-                      type="button"
-                      className="card-table-trigger"
-                      title={uiTranslations.viewOnTable[lang]}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenTableBillboard(item);
-                      }}
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  <div className="popular-card-info">
-                    <div className="popular-card-name">{itemName}</div>
-                    <div className="popular-card-price-row">
-                      <div className="popular-card-price">
-                        {item.price} {item.currency[lang]}
+
+          {filteredProducts.length > 0 ? (
+            <div className="popular-grid" id="popularGrid">
+              {filteredProducts.map((item) => {
+                const itemName = item.name[lang];
+                const badgeText = item.badge ? item.badge[lang] : undefined;
+                return (
+                  <div
+                    key={item.id}
+                    id={`popular-${item.id}`}
+                    className="popular-card group"
+                    onClick={() => handleOpenTableBillboard(item)}
+                  >
+                    <div className="popular-card-img">
+                      <ProductPlaceholder
+                        variant="card"
+                        categoryId={item.categoryId}
+                        image={item.image}
+                        altText={itemName}
+                        lang={lang}
+                        showTableButton={true}
+                        onViewOnTable={() => handleOpenTableBillboard(item)}
+                      />
+                      {badgeText && (
+                        <span className="popular-card-badge">{badgeText}</span>
+                      )}
+                      <button
+                        type="button"
+                        className="card-table-trigger"
+                        title={uiTranslations.viewOnTable[lang]}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenTableBillboard(item);
+                        }}
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="popular-card-info">
+                      <div className="popular-card-name">{itemName}</div>
+                      <div className="popular-card-price-row">
+                        <div className="popular-card-price">
+                          {item.price} {item.currency[lang]}
+                        </div>
+                        <span className="card-table-text-hint">
+                          {uiTranslations.viewOnTable[lang]}
+                        </span>
                       </div>
-                      <span className="card-table-text-hint">
-                        {uiTranslations.viewOnTable[lang]}
-                      </span>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            /* Empty Search Results Card */
+            <div className="p-8 text-center bg-white rounded-2xl border border-[#C9A84C]/20 shadow-xs my-2">
+              <Search className="w-8 h-8 text-[#C9A84C] mx-auto mb-2 opacity-60" />
+              <p className="text-xs font-semibold text-[#5A5A5A] mb-3">
+                {uiTranslations.noResultsFound[lang]}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  setActiveCategory('patisserie');
+                }}
+                className="px-4 py-2 rounded-full bg-[#7B1F2A] text-white text-xs font-bold shadow-xs hover:bg-[#9B2D3A] transition-all"
+              >
+                {uiTranslations.resetFilters[lang]}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Bottom Bar */}
