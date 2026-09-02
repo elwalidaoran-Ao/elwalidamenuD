@@ -327,7 +327,7 @@ export const showcaseProducts: ShowcaseProduct[] = [
       fr: "DA",
       ar: "د.ج",
     },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
     tag: {
       fr: "Gourmand",
       ar: "فاخر",
@@ -1107,7 +1107,7 @@ export const allMenuItems: MenuItem[] = [
     desc: { fr: "Fruits secs, lait, les glaces, pralines, noisette.", ar: "فواكه مجففة، حليب، مثلجات، برالينيه وبندق." },
     price: 650,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
   },
   {
     id: "shake-pistachio",
@@ -1310,7 +1310,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Éclaire Chocolat", ar: "إكلير الشوكولاتة" },
     price: 300,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/%C3%89claire%20Chocolat.png",
     isPopular: true,
   },
   {
@@ -1353,7 +1353,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Paris Brest Pistache", ar: "باريس بريست فستق" },
     price: 500,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
     badge: { fr: "Gourmand", ar: "فاخر" },
     isPopular: true,
   },
@@ -1395,7 +1395,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Tarte Citron", ar: "تارت الليمون" },
     price: 400,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Citron.png",
     isPopular: true,
   },
   {
@@ -1414,7 +1414,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Tarte Citron Meringuée", ar: "تارت الليمون بالمورانغ" },
     price: 450,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Citron%20Meringu%C3%A9e.png",
   },
   {
     id: "saint-honore",
@@ -1454,7 +1454,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Opéra", ar: "أوبرا" },
     price: 400,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Op%C3%A9ra.png",
   },
   {
     id: "royal",
@@ -1462,7 +1462,7 @@ export const allMenuItems: MenuItem[] = [
     name: { fr: "Royal", ar: "رويال شوكولاتة" },
     price: 500,
     currency: { fr: "DA", ar: "د.ج" },
-    image: "",
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Royal.png",
   },
   {
     id: "foret-noir",
