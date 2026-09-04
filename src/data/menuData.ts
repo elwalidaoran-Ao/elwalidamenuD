@@ -1585,6 +1585,38 @@ export const allMenuItems: MenuItem[] = [
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Trompe%20L'oeil%20Citron.png",
   },
+  {
+    id: "brownie-chocolat",
+    categoryId: "patisserie",
+    name: { fr: "Brownie Chocolat", ar: "Brownie Chocolat" },
+    price: 300,
+    currency: { fr: "DA", ar: "د.ج" },
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Brownie%20chocolat.png",
+  },
+  {
+    id: "trompe-loeil-amande",
+    categoryId: "patisserie",
+    name: { fr: "Trompe L'œil Amande", ar: "Trompe L'œil Amande" },
+    price: 650,
+    currency: { fr: "DA", ar: "د.ج" },
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Trompe%20L%27oeil%20%20Amande.png",
+  },
+  {
+    id: "trompe-loeil-noisette",
+    categoryId: "patisserie",
+    name: { fr: "Trompe L'œil Noisette", ar: "Trompe L'œil Noisette" },
+    price: 650,
+    currency: { fr: "DA", ar: "د.ج" },
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Trompe%20L%27oeil%20noisette.png",
+  },
+  {
+    id: "muffin-vanille-fruit-rouge",
+    categoryId: "patisserie",
+    name: { fr: "Muffin Vanille Fruit Rouge", ar: "Muffin Vanille Fruit Rouge" },
+    price: 250,
+    currency: { fr: "DA", ar: "د.ج" },
+    image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Muffin%20Vanille%20Fruit%20Rouge.png",
+  },
 
   // ==================== GÂTEAUX DE VOYAGE ====================
   {
