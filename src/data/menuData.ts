@@ -234,14 +234,14 @@ export const showcaseProducts: ShowcaseProduct[] = [
   {
     id: "tarte-fraise",
     name: {
-      fr: "Tarte Fraise",
-      ar: "تارت الفراولة",
+      fr: "Entremet Fraise",
+      ar: "Entremet Fraise",
     },
     desc: {
       fr: "Crème pâtissière vanille, fraises fraîches de saison sur fond de pâte sablée croustillante.",
       ar: "كريمة باتسيير بالفانيليا، فراولة طازجة موسمية على عجينة صابلي مقرمشة.",
     },
-    price: 400,
+    price: 3500,
     currency: {
       fr: "DA",
       ar: "د.ج",
@@ -1360,23 +1360,23 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "flan-patissier",
     categoryId: "patisserie",
-    name: { fr: "Flan Pâtissier", ar: "فلان باتيسييه" },
-    price: 250,
+    name: { fr: "Flan Parisien", ar: "Flan Parisien" },
+    price: 400,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
   },
   {
     id: "plan-patissier-chocolat",
     categoryId: "patisserie",
-    name: { fr: "Plan Pâtissier Chocolat", ar: "فلان باتيسييه شوكولاتة" },
-    price: 300,
+    name: { fr: "Flan Parisien Pistache", ar: "Flan Parisien Pistache" },
+    price: 500,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
   },
   {
     id: "tarte-pomme",
     categoryId: "patisserie",
-    name: { fr: "Tarte Pomme", ar: "تارت التفاح" },
+    name: { fr: "Grosse Tarte Pomme", ar: "Grosse Tarte Pomme" },
     price: 350,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
@@ -1384,7 +1384,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-tintin",
     categoryId: "patisserie",
-    name: { fr: "Tarte Tintin", ar: "تارت تانتان" },
+    name: { fr: "Tartelette Tatin", ar: "Tartelette Tatin" },
     price: 350,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
@@ -1392,8 +1392,8 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-citron",
     categoryId: "patisserie",
-    name: { fr: "Tarte Citron", ar: "تارت الليمون" },
-    price: 400,
+    name: { fr: "Grosse Tarte Citron Meringuée", ar: "Grosse Tarte Citron Meringuée" },
+    price: 2000,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Citron.png",
     isPopular: true,
@@ -1401,8 +1401,8 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-fraise-item",
     categoryId: "patisserie",
-    name: { fr: "Tarte Fraise", ar: "تارت الفراولة" },
-    price: 400,
+    name: { fr: "Entremet Fraise", ar: "Entremet Fraise" },
+    price: 3500,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
     badge: { fr: "Nouveau", ar: "جديد" },
@@ -1411,8 +1411,8 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-citron-meringuee",
     categoryId: "patisserie",
-    name: { fr: "Tarte Citron Meringuée", ar: "تارت الليمون بالمورانغ" },
-    price: 450,
+    name: { fr: "Entremet Citron Ganache Vanille", ar: "Entremet Citron Ganache Vanille" },
+    price: 3500,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Citron%20Meringu%C3%A9e.png",
   },
@@ -1524,15 +1524,15 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-pistache",
     categoryId: "patisserie",
-    name: { fr: "Tarte pistache", ar: "Tarte pistache" },
-    price: 350,
+    name: { fr: "Tartelette Pistache", ar: "Tartelette Pistache" },
+    price: 400,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tartelette%20pistache.png",
   },
   {
     id: "fruit-de-la-passion",
     categoryId: "patisserie",
-    name: { fr: "Fruit De La Passion", ar: "Fruit De La Passion" },
+    name: { fr: "Trompe L'œil Noix De Coco", ar: "Trompe L'œil Noix De Coco" },
     price: 650,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Fruit%20De%20La%20Passion.png",
@@ -1548,7 +1548,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-chocolat",
     categoryId: "patisserie",
-    name: { fr: "Tarte Chocolat", ar: "Tarte Chocolat" },
+    name: { fr: "Entremet Chocolat", ar: "Entremet Chocolat" },
     price: 450,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
@@ -1556,7 +1556,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-concasseei",
     categoryId: "patisserie",
-    name: { fr: "Tarte Concasséei", ar: "Tarte Concasséei" },
+    name: { fr: "Le Mondiant", ar: "Le Mondiant" },
     price: 500,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Concass%C3%A9ei.png",
@@ -1564,7 +1564,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "tarte-framboise",
     categoryId: "patisserie",
-    name: { fr: "Tarte Framboise", ar: "Tarte Framboise" },
+    name: { fr: "Entremet Framboise", ar: "Entremet Framboise" },
     price: 450,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
@@ -1580,7 +1580,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "trompe-loeil-citron",
     categoryId: "patisserie",
-    name: { fr: "Trompe L'oeil Citron", ar: "Trompe L'oeil Citron" },
+    name: { fr: "Trompe L'œil Mangue", ar: "Trompe L'œil Mangue" },
     price: 650,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Trompe%20L'oeil%20Citron.png",
@@ -1596,7 +1596,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "trompe-loeil-amande",
     categoryId: "patisserie",
-    name: { fr: "Trompe L'œil Amande", ar: "Trompe L'œil Amande" },
+    name: { fr: "Caboosse", ar: "Caboosse" },
     price: 650,
     currency: { fr: "DA", ar: "د.ج" },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Trompe%20L%27oeil%20%20Amande.png",
