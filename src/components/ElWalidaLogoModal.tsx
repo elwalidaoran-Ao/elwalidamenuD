@@ -24,7 +24,7 @@ export function ElWalidaLogoModal({
   if (!isOpen) return null;
 
   const handleCopyBrand = () => {
-    navigator.clipboard?.writeText('EL Walida Pastry & Coffee Shop');
+    navigator.clipboard?.writeText("L'Walida Pastry & Coffee Shop");
     setCopied(true);
     onToast(isRTL ? 'تم نسخ اسم المحل' : 'Nom de marque copié');
     setTimeout(() => setCopied(false), 2000);
@@ -67,7 +67,7 @@ export function ElWalidaLogoModal({
             {!logoError ? (
               <img
                 src={logoUrl}
-                alt="EL Walida Pastry & Coffee Shop Logo"
+                alt="L'Walida Pastry & Coffee Shop Logo"
                 className={`max-w-full max-h-full object-contain transition-opacity duration-300 ${
                   logoLoaded ? 'opacity-100' : 'opacity-80'
                 }`}
@@ -78,7 +78,7 @@ export function ElWalidaLogoModal({
               <div className="w-full h-full rounded-xl bg-[#5C1620] flex flex-col items-center justify-center p-2 text-center">
                 <Sparkles className="w-6 h-6 text-[#C9A84C] mb-1" />
                 <div className="font-serif text-lg font-black text-[#F0E4C0]">الوالدة</div>
-                <div className="text-[9px] font-bold text-[#C9A84C] tracking-widest">EL WALIDA</div>
+                <div className="text-[9px] font-bold text-[#C9A84C] tracking-widest">L'WALIDA</div>
               </div>
             )}
 
@@ -90,7 +90,7 @@ export function ElWalidaLogoModal({
 
           {/* Brand Titles */}
           <h2 className="font-serif text-2xl font-bold text-white tracking-tight mt-2 mb-1">
-            EL Walida
+            L'Walida
           </h2>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#C9A84C] text-[11px] font-bold tracking-widest uppercase mb-2">
             <span>PASTRY & COFFEE SHOP</span>

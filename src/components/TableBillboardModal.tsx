@@ -172,7 +172,7 @@ export function TableBillboardModal({
                 {isRTL ? 'عرض ثلاثي الأبعاد على الطاولة' : '2D Billboard on Table'}
               </div>
               <div className="text-xs font-semibold text-white/90">
-                EL Walida Pastry & Coffee Shop
+                L'Walida Pastry & Coffee Shop
               </div>
             </div>
           </div>
@@ -306,7 +306,7 @@ export function TableBillboardModal({
                     <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
                       <span className="text-[9px] font-bold text-[#C9A84C] tracking-wide">
-                        EL WALIDA
+                        L'WALIDA
                       </span>
                     </div>
                   </div>

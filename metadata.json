@@ -1,6 +1,6 @@
 {
-  "name": "EL Walida Pastry & Coffee Shop",
-  "description": "Menu digital QR officiel pour EL Walida Pastry & Coffee Shop présentant pâtisseries, viennoiseries, café de spécialité et créations gourmandes.",
+  "name": "L'Walida Pastry & Coffee Shop",
+  "description": "Menu digital QR officiel pour L'Walida Pastry & Coffee Shop présentant pâtisseries, viennoiseries, café de spécialité et créations gourmandes.",
   "requestFramePermissions": ["camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

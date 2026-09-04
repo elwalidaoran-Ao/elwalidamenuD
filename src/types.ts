@@ -1,5 +1,5 @@
 /**
- * Pâtisserie El Walida - Menu Types
+ * Pâtisserie L'Walida - Menu Types
  */
 
 export type Language = 'fr' | 'ar';

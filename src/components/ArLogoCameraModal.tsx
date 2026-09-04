@@ -30,7 +30,7 @@ export function ArLogoCameraModal({
         fr: 'AR Caméra • Logo Officiel',
         ar: 'واقع معزز • الشعار الرسمي',
       }}
-      altText="EL Walida Pastry & Coffee Shop Official Logo"
+      altText="L'Walida Pastry & Coffee Shop Official Logo"
       overlaySize="normal"
       onClose={onClose}
       onToast={onToast}

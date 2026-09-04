@@ -28,7 +28,7 @@ export function ProductPlaceholder({
   variant,
   categoryId = 'patisserie',
   image,
-  altText = 'EL Walida Pastry & Coffee Shop',
+  altText = "L'Walida Pastry & Coffee Shop",
   lang = 'fr',
   onViewOnTable,
   className = '',

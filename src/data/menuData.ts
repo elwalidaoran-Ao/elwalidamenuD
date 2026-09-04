@@ -2,17 +2,17 @@ import { RestaurantInfo, Category, ShowcaseProduct, MenuItem, UITranslations } f
 
 /**
  * ============================================================================
- * PÂTISSERIE EL WALIDA - MENU OFFICIEL COMPLET
+ * PÂTISSERIE L'WALIDA - MENU OFFICIEL COMPLET
  * ============================================================================
  * Toutes les catégories, produits, prix réels et descriptions exactes
- * du menu officiel de la Pâtisserie El Walida.
+ * du menu officiel de la Pâtisserie L'Walida.
  */
 
 // Informations générales
 export const restaurantInfo: RestaurantInfo = {
   name: {
-    fr: "EL Walida Pastry & Coffee Shop",
-    ar: "EL Walida Pastry & Coffee Shop",
+    fr: "L'Walida Pastry & Coffee Shop",
+    ar: "L'Walida Pastry & Coffee Shop",
   },
   headline: {
     fr: "Le goût qui\nfait plaisir.",
@@ -261,7 +261,7 @@ export const showcaseProducts: ShowcaseProduct[] = [
   {
     id: "brunch-lwlaida",
     name: {
-      fr: "Brunch L'Wlaida",
+      fr: "Brunch L'Walida",
       ar: "برانش الوالدة",
     },
     desc: {
@@ -1157,7 +1157,7 @@ export const allMenuItems: MenuItem[] = [
   {
     id: "smoothie-lwalida",
     categoryId: "smoothies",
-    name: { fr: "Smoothie Lwalida", ar: "سموذي الوالدة" },
+    name: { fr: "Smoothie L'Walida", ar: "سموذي الوالدة" },
     desc: { fr: "Jus d'orange, gingembre, menthe fraiche, fruit de la passion.", ar: "عصير برتقال، زنجبيل طازج، نعناع، باشن فروت." },
     price: 700,
     currency: { fr: "DA", ar: "د.ج" },

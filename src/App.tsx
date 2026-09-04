@@ -242,7 +242,7 @@ export default function App() {
               {restaurantInfo.logoUrl ? (
                 <img
                   src={restaurantInfo.logoUrl}
-                  alt="El Walida Logo"
+                  alt="L'Walida Logo"
                   className="w-3.5 h-3.5 object-contain rounded-full border border-[#C9A84C]/60"
                 />
               ) : (
@@ -723,7 +723,7 @@ export default function App() {
         />
       )}
 
-      {/* El Walida Official AR Camera Logo Viewer */}
+      {/* L'Walida Official AR Camera Logo Viewer */}
       <ArLogoCameraModal
         isOpen={isLogoModalOpen}
         lang={lang}
