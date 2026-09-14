@@ -115,7 +115,9 @@ export function TableBillboardModal({
   const categoryId = 'categoryId' in product ? product.categoryId : 'patisserie';
   const desc = product.desc ? product.desc[lang] : '';
   const name = product.name[lang];
-  const price = `${product.price} ${product.currency[lang]}`;
+  const price = typeof product.price === 'number' && product.price > 0
+    ? `${product.price} ${product.currency[lang]}`
+    : (lang === 'ar' ? 'قيد التأكيد' : (typeof product.price === 'string' && product.price ? product.price : 'À confirmer'));
 
   // Category Icon Resolver
   const getCategoryIcon = (cat: string) => {

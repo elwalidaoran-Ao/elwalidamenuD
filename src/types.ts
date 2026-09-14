@@ -41,7 +41,7 @@ export interface MenuItem {
   categoryId: string;
   name: LocalizedText;
   desc?: LocalizedText;
-  price: number;
+  price: number | string;
   currency: LocalizedText;
   image: string;
   badge?: LocalizedText;

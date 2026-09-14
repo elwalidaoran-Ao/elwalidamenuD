@@ -636,7 +636,9 @@ export default function App() {
                       <div className="popular-card-name">{itemName}</div>
                       <div className="popular-card-price-row">
                         <div className="popular-card-price">
-                          {item.price} {item.currency[lang]}
+                          {typeof item.price === 'number' && item.price > 0
+                            ? `${item.price} ${item.currency[lang]}`
+                            : (lang === 'ar' ? 'قيد التأكيد' : (typeof item.price === 'string' && item.price ? item.price : 'À confirmer'))}
                         </div>
                         <span className="card-table-text-hint">
                           {uiTranslations.viewOnTable[lang]}
@@ -715,7 +717,11 @@ export default function App() {
               ? selectedArProduct.badge
               : undefined
           }
-          price={`${selectedArProduct.price} ${selectedArProduct.currency[lang]}`}
+          price={
+            typeof selectedArProduct.price === 'number' && selectedArProduct.price > 0
+              ? `${selectedArProduct.price} ${selectedArProduct.currency[lang]}`
+              : (lang === 'ar' ? 'قيد التأكيد' : (typeof selectedArProduct.price === 'string' && selectedArProduct.price ? selectedArProduct.price : 'À confirmer'))
+          }
           altText={selectedArProduct.name[lang]}
           overlaySize="large"
           onClose={() => setIsArProductModalOpen(false)}
