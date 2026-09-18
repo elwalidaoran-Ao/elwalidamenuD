@@ -171,7 +171,7 @@ export function TableBillboardModal({
             </div>
             <div>
               <div className="text-[10px] uppercase font-bold tracking-wider text-[#C9A84C]">
-                {isRTL ? 'عرض ثلاثي الأبعاد على الطاولة' : '2D Billboard on Table'}
+                {isRTL ? 'عرض ثلاثي الأبعاد على الطاولة' : 'ON TABLE'}
               </div>
               <div className="text-xs font-semibold text-white/90">
                 L'Walida Pastry & Coffee Shop

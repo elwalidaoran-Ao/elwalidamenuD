@@ -683,7 +683,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Realistic 2D Billboard on Table Modal */}
+      {/* Realistic On Table Modal */}
       <TableBillboardModal
         isOpen={isTableModalOpen}
         product={selectedBillboardProduct}
