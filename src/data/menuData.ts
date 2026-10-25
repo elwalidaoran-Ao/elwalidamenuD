@@ -248,8 +248,8 @@ export const showcaseProducts: ShowcaseProduct[] = [
     },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
     tag: {
-      fr: "Nouveauté",
-      ar: "جديد",
+      fr: "Pâtisserie",
+      ar: "حلويات",
     },
     sideImages: [
       "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
@@ -275,8 +275,8 @@ export const showcaseProducts: ShowcaseProduct[] = [
     },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
     tag: {
-      fr: "Nouveauté",
-      ar: "جديد",
+      fr: "Pâtisserie",
+      ar: "حلويات",
     },
     sideImages: [
       "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
@@ -302,8 +302,8 @@ export const showcaseProducts: ShowcaseProduct[] = [
     },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
     tag: {
-      fr: "Nouveauté",
-      ar: "جديد",
+      fr: "Smoothies & Shakes",
+      ar: "سموذي وميلك شيك",
     },
     sideImages: [
       "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
@@ -313,7 +313,7 @@ export const showcaseProducts: ShowcaseProduct[] = [
     ],
   },
   {
-    id: "paris-brest-pistache",
+    id: "paris-brest-pistache-item",
     name: {
       fr: "Paris Brest Pistache",
       ar: "باريس بريست بالفستق",
@@ -329,8 +329,8 @@ export const showcaseProducts: ShowcaseProduct[] = [
     },
     image: "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
     tag: {
-      fr: "Nouveauté",
-      ar: "جديد",
+      fr: "Pâtisserie",
+      ar: "حلويات",
     },
     sideImages: [
       "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
@@ -393,7 +393,6 @@ export const allMenuItems: MenuItem[] = [
     price: 800,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
-    badge: { fr: "Nouveau", ar: "جديد" },
   },
   {
     id: "salade-nicoise",
@@ -1496,7 +1495,6 @@ export const allMenuItems: MenuItem[] = [
     price: 3500,
     currency: { fr: "DA", ar: "د.ج" },
     image: "",
-    badge: { fr: "Nouveau", ar: "جديد" },
     isPopular: true,
   },
   {
