@@ -142,6 +142,22 @@ export default function App() {
     };
   }, []);
 
+  // Sync admin mode class on body & #root for unconstrained scrolling
+  useEffect(() => {
+    const rootEl = document.getElementById('root');
+    if (isAdminView) {
+      document.body.classList.add('admin-mode');
+      rootEl?.classList.add('admin-active');
+    } else {
+      document.body.classList.remove('admin-mode');
+      rootEl?.classList.remove('admin-active');
+    }
+    return () => {
+      document.body.classList.remove('admin-mode');
+      rootEl?.classList.remove('admin-active');
+    };
+  }, [isAdminView]);
+
   const handleEnterAdmin = () => {
     setIsAdminView(true);
     window.history.pushState({}, '', '#gestion-menu');
