@@ -64,7 +64,7 @@ body.admin-mode {
   min-height: 100vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  background: #121214 !important;
+  background: #F8F6F3 !important;
 }
 
 #root.admin-active {
@@ -73,7 +73,7 @@ body.admin-mode {
   display: block !important;
   overflow-y: visible !important;
   overflow-x: hidden !important;
-  background: #121214 !important;
+  background: #F8F6F3 !important;
 }
 
 .phone-frame {
