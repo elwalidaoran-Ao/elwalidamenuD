@@ -251,12 +251,6 @@ export const showcaseProducts: ShowcaseProduct[] = [
       fr: "Pâtisserie",
       ar: "حلويات",
     },
-    sideImages: [
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
-    ],
   },
   {
     id: "tarte-framboise",
@@ -278,12 +272,6 @@ export const showcaseProducts: ShowcaseProduct[] = [
       fr: "Pâtisserie",
       ar: "حلويات",
     },
-    sideImages: [
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
-    ],
   },
   {
     id: "shake-healthy",
@@ -305,12 +293,6 @@ export const showcaseProducts: ShowcaseProduct[] = [
       fr: "Smoothies & Shakes",
       ar: "سموذي وميلك شيك",
     },
-    sideImages: [
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
-    ],
   },
   {
     id: "paris-brest-pistache-item",
@@ -332,12 +314,6 @@ export const showcaseProducts: ShowcaseProduct[] = [
       fr: "Pâtisserie",
       ar: "حلويات",
     },
-    sideImages: [
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Chocolat.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Tarte%20Framboise.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Milk%20Shakes%20Healthy.png",
-      "https://raw.githubusercontent.com/okba2272-ops/Products-P/main/Paris%20Brest%20Pistache.png",
-    ],
   },
 ];
 

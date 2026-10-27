@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect, useCallback, useMemo, UIEvent, TouchEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Eye, Sparkles, Search, X, Layers, Camera, ShieldCheck, SlidersHorizontal } from 'lucide-react';
 import {
   restaurantInfo,
   uiTranslations,
   categories,
-  showcaseProducts,
   allMenuItems,
 } from './data/menuData';
 import { Language, MenuItem, ShowcaseProduct } from './types';
@@ -19,9 +18,6 @@ export default function App() {
   const [lang, setLang] = useState<Language>('fr');
   const [activeCategory, setActiveCategory] = useState<string>('patisserie');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [currentProductIndex, setCurrentProductIndex] = useState<number>(0);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [animStage, setAnimStage] = useState<'normal' | 'exiting'>('normal');
   const [toast, setToast] = useState<{ message: string; visible: boolean }>({
     message: '',
     visible: false,
@@ -64,26 +60,8 @@ export default function App() {
 
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const categoriesScrollRef = useRef<HTMLDivElement | null>(null);
-  const touchStartXRef = useRef<number>(0);
-
-  const [parallaxStyle, setParallaxStyle] = useState({
-    sideLeft: 'rotate(-12deg) translateY(0px)',
-    sideRight: 'rotate(8deg) translateY(0px)',
-    sideBL: 'rotate(-6deg) translateY(0px)',
-    sideBR: 'rotate(10deg) translateY(0px)',
-  });
 
   const isRTL = lang === 'ar';
-  const currentProduct = showcaseProducts[currentProductIndex] || showcaseProducts[0];
-
-  // Find category for current showcase product
-  const currentProductCategory = useMemo(() => {
-    const item = allMenuItems.find((p) => p.id === currentProduct.id);
-    return item?.categoryId || 'patisserie';
-  }, [currentProduct.id]);
-
-  const currentProductStatus = getEffectiveStatus(currentProduct.id, currentProductCategory);
-
   const selectedCategoryObj = categories.find((c) => c.id === activeCategory);
 
   // Filtered menu items based on category and search query
@@ -116,10 +94,7 @@ export default function App() {
 
   // Unified list of products for cycling in the Table Billboard modal
   const allAvailableProducts = useMemo(() => {
-    return [
-      ...showcaseProducts,
-      ...allMenuItems.filter((item) => !showcaseProducts.some((sp) => sp.id === item.id)),
-    ];
+    return allMenuItems;
   }, []);
 
   // Sync document language and direction
@@ -214,61 +189,7 @@ export default function App() {
     []
   );
 
-  // Product navigation transition handler
-  const goToProduct = useCallback(
-    (index: number) => {
-      if (isAnimating || index === currentProductIndex) return;
-      setIsAnimating(true);
-      setAnimStage('exiting');
 
-      setTimeout(() => {
-        setCurrentProductIndex(index);
-        setAnimStage('normal');
-
-        setTimeout(() => {
-          setIsAnimating(false);
-        }, 400);
-      }, 300);
-    },
-    [isAnimating, currentProductIndex]
-  );
-
-  // Parallax on scroll
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const y = e.currentTarget.scrollTop;
-    setParallaxStyle({
-      sideLeft: `rotate(-12deg) translateY(${y * 0.08}px)`,
-      sideRight: `rotate(8deg) translateY(${y * 0.06}px)`,
-      sideBL: `rotate(-6deg) translateY(${y * 0.04}px)`,
-      sideBR: `rotate(10deg) translateY(${y * 0.05}px)`,
-    });
-  };
-
-  // Touch swipe handling on product showcase (direction aware for RTL)
-  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    touchStartXRef.current = e.changedTouches[0].screenX;
-  };
-
-  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartXRef.current - touchEndX;
-
-    if (Math.abs(diff) > 50) {
-      if (isRTL) {
-        if (diff > 0 && currentProductIndex > 0) {
-          goToProduct(currentProductIndex - 1);
-        } else if (diff < 0 && currentProductIndex < showcaseProducts.length - 1) {
-          goToProduct(currentProductIndex + 1);
-        }
-      } else {
-        if (diff > 0 && currentProductIndex < showcaseProducts.length - 1) {
-          goToProduct(currentProductIndex + 1);
-        } else if (diff < 0 && currentProductIndex > 0) {
-          goToProduct(currentProductIndex - 1);
-        }
-      }
-    }
-  };
 
   // Auto-scroll categories hint on mount
   useEffect(() => {
@@ -300,7 +221,7 @@ export default function App() {
       <div className="home-indicator" id="homeIndicator"></div>
 
       {/* Scrollable Content */}
-      <div className="content" id="content" onScroll={handleScroll}>
+      <div className="content" id="content">
         {/* Header */}
         <header className="header animate-in delay-1" id="header">
           <div className="brand" id="brand">
@@ -348,192 +269,8 @@ export default function App() {
           </div>
         </header>
 
-        {/* Hero Product Section with Parallax Side Floating Pastries */}
-        <div
-          className="hero animate-in delay-2"
-          id="hero"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* 4 Floating Side Pastry Visuals with Dynamic Parallax */}
-          <div
-            className="floating-pastry pastry-top-left"
-            id="pastryTopLeft"
-            style={{ transform: parallaxStyle.sideLeft }}
-          >
-            <img
-              src={currentProduct.sideImages[0]}
-              alt="Pastry Deco"
-              loading="lazy"
-            />
-          </div>
-
-          <div
-            className="floating-pastry pastry-top-right"
-            id="pastryTopRight"
-            style={{ transform: parallaxStyle.sideRight }}
-          >
-            <img
-              src={currentProduct.sideImages[1]}
-              alt="Pastry Deco"
-              loading="lazy"
-            />
-          </div>
-
-          <div
-            className="floating-pastry pastry-bottom-left"
-            id="pastryBottomLeft"
-            style={{ transform: parallaxStyle.sideBL }}
-          >
-            <img
-              src={currentProduct.sideImages[2]}
-              alt="Pastry Deco"
-              loading="lazy"
-            />
-          </div>
-
-          <div
-            className="floating-pastry pastry-bottom-right"
-            id="pastryBottomRight"
-            style={{ transform: parallaxStyle.sideBR }}
-          >
-            <img
-              src={currentProduct.sideImages[3]}
-              alt="Pastry Deco"
-              loading="lazy"
-            />
-          </div>
-
-          {/* Central Featured Showcase Card */}
-          <div className="hero-card" id="heroCard">
-            {/* Tag Badge with Live Availability Override */}
-            {currentProductStatus === 'epuise' ? (
-              <span className="product-tag bg-[#7B1F2A] text-[#F0E4C0] border border-[#C9A84C]/50" id="heroTag">
-                {isRTL ? 'نفذت الكمية' : 'Épuisé'}
-              </span>
-            ) : currentProductStatus === 'indisponible' ? (
-              <span className="product-tag bg-[#71717A] text-white border border-white/20" id="heroTag">
-                {isRTL ? 'غير متوفر' : 'Indisponible'}
-              </span>
-            ) : (
-              <span className="product-tag" id="heroTag">
-                {currentProduct.tag[lang]}
-              </span>
-            )}
-
-            <div
-              className={`product-display cursor-pointer ${
-                currentProductStatus !== 'disponible' ? 'opacity-85' : ''
-              }`}
-              id="heroProduct"
-              onClick={() => handleOpenTableBillboard(currentProduct)}
-              style={{
-                transform:
-                  animStage === 'exiting'
-                    ? 'scale(0.85) translateY(20px)'
-                    : 'scale(1) translateY(0)',
-                opacity: animStage === 'exiting' ? 0.5 : 1,
-              }}
-            >
-              <div className="hero-product-glow"></div>
-              <ProductPlaceholder
-                variant="showcase"
-                categoryId={currentProduct.id}
-                image={currentProduct.image}
-                altText={currentProduct.name[lang]}
-                lang={lang}
-                showTableButton={false}
-              />
-            </div>
-
-            {/* Dedicated "View on Table" & AR Camera Action Buttons */}
-            <div className="flex items-center justify-center gap-2 flex-wrap">
-              <button
-                type="button"
-                id="heroTableBtn"
-                className="hero-table-btn"
-                onClick={() => handleOpenTableBillboard(currentProduct)}
-              >
-                <Eye className="w-3.5 h-3.5 text-[#C9A84C]" />
-                <span>{uiTranslations.viewOnTable[lang]}</span>
-              </button>
-              {currentProduct.image && (
-                <button
-                  type="button"
-                  id="heroArBtn"
-                  className="hero-table-btn"
-                  onClick={() => handleOpenArProductCamera(currentProduct)}
-                >
-                  <Camera className="w-3.5 h-3.5 text-[#C9A84C]" />
-                  <span>{uiTranslations.arCamera[lang]}</span>
-                </button>
-              )}
-            </div>
-
-            <h2
-              className="product-name"
-              id="heroName"
-              style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
-            >
-              {currentProduct.name[lang]}
-            </h2>
-            <p
-              className="product-desc"
-              id="heroDesc"
-              style={{ opacity: animStage === 'exiting' ? 0 : 1 }}
-            >
-              {currentProduct.desc[lang]}
-            </p>
-
-            <div
-              className="product-price"
-              id="heroPrice"
-              style={{
-                marginBottom: '16px',
-                opacity: animStage === 'exiting' ? 0 : 1,
-              }}
-            >
-              {currentProduct.price}
-              <span>{currentProduct.currency[lang]}</span>
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="nav-dots" id="navDots">
-              {showcaseProducts.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  aria-label={`Aller au produit ${index + 1}`}
-                  id={`navDot-${index}`}
-                  className={`nav-dot ${index === currentProductIndex ? 'active' : ''}`}
-                  onClick={() => goToProduct(index)}
-                />
-              ))}
-            </div>
-
-            {/* Swipe hint */}
-            <div className="swipe-hint" id="swipeHint">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {isRTL ? (
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                ) : (
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                )}
-              </svg>
-              <span>{uiTranslations.swipeHint[lang]}</span>
-            </div>
-          </div>
-        </div>
-
         {/* Categories Bar */}
-        <div className="categories-bar animate-in delay-3" id="categoriesBar">
+        <div className="categories-bar animate-in delay-2" id="categoriesBar">
           <div className="categories-scroll" id="categoriesScroll" ref={categoriesScrollRef}>
             {/* "All" category button */}
             <button

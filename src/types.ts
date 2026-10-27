@@ -33,7 +33,6 @@ export interface ShowcaseProduct {
   currency: LocalizedText;
   image: string;
   tag: LocalizedText;
-  sideImages: [string, string, string, string];
 }
 
 export interface MenuItem {
